@@ -3,7 +3,10 @@ package com.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.beans.Adviser;
 
@@ -89,6 +92,46 @@ public class AdviserDao implements IDao<Adviser> {
 		resultSet.close();
 		statement.close();
 		return adviser;
+	}
+
+	public List<Adviser> getByThesisId(int thesisId, Connection connection) throws SQLException{
+		
+		List<Adviser> advisers = new ArrayList<Adviser>();
+		
+		List<Integer> adviserIds = new ArrayList<Integer>();
+		String query = "select adviserId from theses_advisers where thesisId = ?";
+		PreparedStatement statement = connection.prepareStatement(query);
+		statement.setInt(1, thesisId);
+		ResultSet resultSet = statement.executeQuery();
+		while(resultSet.next()){
+			adviserIds.add(resultSet.getInt("adviserId"));
+		}
+		if(adviserIds.size() > 0){
+			String inClauseValue = "";
+			for(int a = 0; a < adviserIds.size(); a++){
+				inClauseValue += adviserIds.get(a);
+				if(a < adviserIds.size() - 1){
+					inClauseValue += ", ";
+				}
+			}
+			query = "select * from advisers where id in(" + inClauseValue + ")";
+			statement = connection.prepareStatement(query);
+			resultSet = statement.executeQuery();
+			while(resultSet.next()){
+				int id = resultSet.getInt("id");
+				String title = resultSet.getString("title");
+				String lastname = resultSet.getString("lastname");
+				String firstname = resultSet.getString("firstname");
+				String middlename = resultSet.getString("middlename");
+				boolean isDeleted = resultSet.getBoolean("isDeleted");
+				Timestamp creationTime = resultSet.getTimestamp("creationTime");
+				Adviser adviser = new Adviser(id, title, lastname, firstname, middlename, isDeleted, creationTime);
+				advisers.add(adviser);
+			}
+		}
+		resultSet.close();
+		statement.close();
+		return advisers;
 	}
 	
 }

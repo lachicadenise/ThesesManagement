@@ -12,7 +12,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.beans.UserAccount;
-import com.dao.UserAccountDao;
 
 @Path("/userAccounts")
 public class UserAccountService {
@@ -26,12 +25,12 @@ public class UserAccountService {
 			@DefaultValue("0") @QueryParam("from") int from
 			){
 		List<UserAccount> userAccounts = new ArrayList<UserAccount>();
-		try{
-			UserAccountDao dao = new UserAccountDao();
-			userAccounts = dao.get(searchValue, from, limit, null);
-		} catch(Exception e){
-			e.printStackTrace();
-		}
+//		try{
+//			UserAccountDao dao = new UserAccountDao();
+//			userAccounts = dao.get(searchValue, from, limit, null);
+//		} catch(Exception e){
+//			e.printStackTrace();
+//		}
 		return Response.ok(userAccounts).build();
 	}
 	

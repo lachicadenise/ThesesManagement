@@ -21,8 +21,12 @@ public class Thesis extends Bean {
 		setTags(tags);
 	}
 	
+	public Thesis(int id, String title, String summary, boolean isDeleted, Timestamp creationTime){
+		this(id, title, summary, new ArrayList<Proponent>(), new ArrayList<Adviser>(), new ArrayList<Tag>(), isDeleted, creationTime);
+	}
+	
 	public Thesis(String title, String summary){
-		this(0, title, summary, new ArrayList<Proponent>(), new ArrayList<Adviser>(), new ArrayList<Tag>(), false, null);
+		this(0, title, summary, false, null);
 	}
 	
 	public String getTitle() {

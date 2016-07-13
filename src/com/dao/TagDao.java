@@ -70,7 +70,7 @@ public class TagDao implements IDao<Tag>{
 		statement.setInt(1, id);
 		ResultSet resultSet = statement.executeQuery();
 		if(resultSet.next()){
-			String name = resultSet.getString("title");
+			String name = resultSet.getString("name");
 			boolean isDeleted = resultSet.getBoolean("isDeleted");
 			Timestamp creationTime = resultSet.getTimestamp("creationTime");
 			Tag = new Tag(id, name, isDeleted, creationTime);

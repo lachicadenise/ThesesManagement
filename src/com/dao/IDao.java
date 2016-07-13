@@ -11,5 +11,5 @@ public interface IDao<T> {
 	public boolean update(T bean, Connection connection) throws Exception;
 	
 	public T get(int id, Connection connection) throws Exception;
-	
+		
 }
