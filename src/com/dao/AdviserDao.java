@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.util.List;
 
 import com.beans.Adviser;
 
@@ -27,16 +26,27 @@ public class AdviserDao implements IDao<Adviser> {
 				bean.setId(resultSet.getInt(1));
 			}
 			resultSet.close();
+			if(bean.getId() != 0){
+				query = "select creationTime from advisers where id = ?";
+				statement = connection.prepareStatement(query);
+				statement.setInt(1, bean.getId());
+				resultSet = statement.executeQuery();
+				if(resultSet.next()){
+					Timestamp creationTime = resultSet.getTimestamp("creationTime");
+					bean.setCreationTime(creationTime);
+				}
+			}
 		}
 		statement.close();
 	}
-
+	
 	@Override
 	public void delete(int id, Connection connection) 
 			throws Exception {
 		// TODO Auto-generated method stub
 		String query = "delete from advisers where id = ? limit 1";
 		PreparedStatement statement = connection.prepareStatement(query);
+		statement.setInt(1, id);
 		statement.executeUpdate();
 		statement.close();
 	}
@@ -80,12 +90,5 @@ public class AdviserDao implements IDao<Adviser> {
 		statement.close();
 		return adviser;
 	}
-
-	@Override
-	public List<Adviser> get(List<Integer> id, Connection connection) 
-			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 }

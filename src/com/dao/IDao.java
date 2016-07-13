@@ -1,7 +1,6 @@
 package com.dao;
 
 import java.sql.Connection;
-import java.util.List;
 
 public interface IDao<T> {
 
@@ -12,8 +11,5 @@ public interface IDao<T> {
 	public boolean update(T bean, Connection connection) throws Exception;
 	
 	public T get(int id, Connection connection) throws Exception;
-	
-	public List<T> get(List<Integer> id, Connection connection) 
-			throws Exception;
 	
 }

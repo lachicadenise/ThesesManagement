@@ -37,13 +37,6 @@ public class UserAccountDao implements IDao<UserAccount> {
 		UserAccount userAccount = new UserAccount(1, "joshuazabala", "password01", "Zabala", "Joshua", "Perez", false, new Timestamp(System.currentTimeMillis()));
 		return userAccount;
 	}
-
-	@Override
-	public List<UserAccount> get(List<Integer> id, Connection connection) 
-			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	public List<UserAccount> get(String value, int from, int limit, Connection connection) 
 			throws Exception {

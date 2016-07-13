@@ -1,7 +1,6 @@
 package com.dao;
 
 import java.sql.Connection;
-import java.util.List;
 
 import com.beans.Thesis;
 
@@ -30,13 +29,6 @@ public class ThesisDao implements IDao<Thesis> {
 
 	@Override
 	public Thesis get(int id, Connection connection) 
-			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Thesis> get(List<Integer> id, Connection connection) 
 			throws Exception {
 		// TODO Auto-generated method stub
 		return null;

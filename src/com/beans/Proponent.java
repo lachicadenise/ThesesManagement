@@ -4,23 +4,33 @@ import java.sql.Timestamp;
 
 public class Proponent extends Bean {
 
+	private int thesisId;
 	private String title;
 	private String lastname;
 	private String firstname;
 	private String middlename;
 	
-	public Proponent(int id, String title, String lastname, String firstname, String middlename, boolean isDeleted, Timestamp creationTime) {
+	public Proponent(int id, int thesisId, String title, String lastname, String firstname, String middlename, boolean isDeleted, Timestamp creationTime) {
 		super(id, isDeleted, creationTime);
+		setThesisId(thesisId);
 		setTitle(title);
 		setLastname(lastname);
 		setFirstname(firstname);
 		setMiddlename(middlename);
 	}
 
-	public Proponent(String title, String lastname, String firstname, String middlename){
-		this(0, title, lastname, firstname, middlename, false, null);
+	public Proponent(int thesisId, String title, String lastname, String firstname, String middlename){
+		this(0, thesisId, title, lastname, firstname, middlename, false, null);
 	}
 
+	public int getThesisId(){
+		return thesisId;
+	}
+	
+	public void setThesisId(int thesisId){
+		this.thesisId = thesisId;
+	}
+	
 	public String getTitle(){
 		return title;
 	}
