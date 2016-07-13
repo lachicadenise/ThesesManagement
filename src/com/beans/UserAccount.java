@@ -1,6 +1,6 @@
 package com.beans;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class UserAccount extends Bean {
 
@@ -10,7 +10,7 @@ public class UserAccount extends Bean {
 	private String firstname;
 	private String middlename;
 	
-	public UserAccount(int id, String username, String password, String lastname, String firstname, String middlename, boolean isDeleted, Date creationTime) {
+	public UserAccount(int id, String username, String password, String lastname, String firstname, String middlename, boolean isDeleted, Timestamp creationTime) {
 		super(id, isDeleted, creationTime);
 		setUsername(username);
 		setPassword(password);
@@ -20,7 +20,7 @@ public class UserAccount extends Bean {
 	}	
 	
 	public UserAccount(String username, String password, String lastname, String firstname, String middlename){
-		this(0, username, password, lastname, firstname, middlename, false, new Date(System.currentTimeMillis()));
+		this(0, username, password, lastname, firstname, middlename, false, null);
 	}
 	
 	public String getUsername() {

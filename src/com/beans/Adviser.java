@@ -1,6 +1,6 @@
 package com.beans;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class Adviser extends Bean{
 
@@ -9,7 +9,7 @@ public class Adviser extends Bean{
 	private String firstname;
 	private String middlename;	
 	
-	public Adviser(int id, String title, String lastname, String firstname, String middlename, boolean isDeleted, Date creationTime) {
+	public Adviser(int id, String title, String lastname, String firstname, String middlename, boolean isDeleted, Timestamp creationTime) {
 		super(id, isDeleted, creationTime);
 		setTitle(title);
 		setLastname(lastname);
@@ -18,7 +18,7 @@ public class Adviser extends Bean{
 	}
 	
 	public Adviser(String title, String lastname, String firstname, String middlename){
-		this(0, title, lastname, firstname, middlename, false, new Date(System.currentTimeMillis()));
+		this(0, title, lastname, firstname, middlename, false, null);
 	}
 	
 	public String getTitle() {

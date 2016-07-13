@@ -1,21 +1,21 @@
 package com.beans;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class Bean {
 
 	private int id;
 	private boolean isDeleted;
-	private Date creationTime;
+	private Timestamp creationTime;
 	
-	public Bean(int id, boolean isDeleted, Date dateCreated){
+	public Bean(int id, boolean isDeleted, Timestamp dateCreated){
 		setId(id);
 		setDeleted(isDeleted);
 		this.creationTime = dateCreated;
 	}
 	
 	public Bean(){
-		this(0, false, new Date(System.currentTimeMillis()));
+		this(0, false, null);
 	}
 
 	public int getId() {
@@ -34,11 +34,11 @@ public class Bean {
 		this.isDeleted = isDeleted;
 	}
 
-	public Date getCreationTime() {
+	public Timestamp getCreationTime() {
 		return creationTime;
 	}
 
-	public void setCreationTime(Date creationTime) {
+	public void setCreationTime(Timestamp creationTime) {
 		this.creationTime = creationTime;
 	}
 	

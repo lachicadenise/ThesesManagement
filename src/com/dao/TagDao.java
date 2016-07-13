@@ -8,7 +8,7 @@ import com.beans.Tag;
 public class TagDao implements IDao<Tag>{
 
 	@Override
-	public void save(Tag bean, Connection connection) 
+	public void create(Tag bean, Connection connection) 
 			throws Exception {
 		// TODO Auto-generated method stub
 		

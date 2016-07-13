@@ -8,7 +8,7 @@ import com.beans.Thesis;
 public class ThesisDao implements IDao<Thesis> {
 
 	@Override
-	public void save(Thesis bean, Connection connection) 
+	public void create(Thesis bean, Connection connection) 
 			throws Exception {
 		// TODO Auto-generated method stub
 		

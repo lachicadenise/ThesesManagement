@@ -1,4 +1,4 @@
-package com.services;
+package com.utils;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -12,7 +12,7 @@ import java.util.Properties;
 import com.mysql.cj.jdbc.MysqlDataSource;
 
 public class MySQLConnectionFactory {
-
+	
 	private static String KEY_SERVER_NAME = "hostname";
 	private static String KEY_DATABASE_NAME = "databaseName";
 	private static String KEY_DATABASE_USERNAME = "databaseUsername";

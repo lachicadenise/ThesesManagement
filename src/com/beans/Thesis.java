@@ -1,6 +1,6 @@
 package com.beans;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +12,7 @@ public class Thesis extends Bean {
 	private List<Adviser> advisers;
 	private List<Tag> tags;
 
-	public Thesis(int id, String title, String summary, List<Proponent> proponents, List<Adviser> advisers, List<Tag> tags, boolean isDeleted, Date creationTime) {
+	public Thesis(int id, String title, String summary, List<Proponent> proponents, List<Adviser> advisers, List<Tag> tags, boolean isDeleted, Timestamp creationTime) {
 		super(id, isDeleted, creationTime);
 		setTitle(title);
 		setSummary(summary);
@@ -22,7 +22,7 @@ public class Thesis extends Bean {
 	}
 	
 	public Thesis(String title, String summary){
-		this(0, title, summary, new ArrayList<Proponent>(), new ArrayList<Adviser>(), new ArrayList<Tag>(), false, new Date(System.currentTimeMillis()));
+		this(0, title, summary, new ArrayList<Proponent>(), new ArrayList<Adviser>(), new ArrayList<Tag>(), false, null);
 	}
 	
 	public String getTitle() {

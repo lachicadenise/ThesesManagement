@@ -8,7 +8,7 @@ import com.beans.Proponent;
 public class ProponentDao implements IDao<Proponent>{
 
 	@Override
-	public void save(Proponent bean, Connection connection) throws Exception {
+	public void create(Proponent bean, Connection connection) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}

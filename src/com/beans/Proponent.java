@@ -1,24 +1,34 @@
 package com.beans;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class Proponent extends Bean {
 
+	private String title;
 	private String lastname;
 	private String firstname;
 	private String middlename;
 	
-	public Proponent(int id, String lastname, String firstname, String middlename, boolean isDeleted, Date creationTime) {
+	public Proponent(int id, String title, String lastname, String firstname, String middlename, boolean isDeleted, Timestamp creationTime) {
 		super(id, isDeleted, creationTime);
+		setTitle(title);
 		setLastname(lastname);
 		setFirstname(firstname);
 		setMiddlename(middlename);
 	}
 
-	public Proponent(String lastname, String firstname, String middlename){
-		this(0, lastname, firstname, middlename, false, new Date(System.currentTimeMillis()));
+	public Proponent(String title, String lastname, String firstname, String middlename){
+		this(0, title, lastname, firstname, middlename, false, null);
 	}
 
+	public String getTitle(){
+		return title;
+	}
+	
+	public void setTitle(String title){
+		this.title = title;
+	}
+	
 	public String getLastname() {
 		return lastname;
 	}

@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface IDao<T> {
 
-	public void save(T bean, Connection connection) throws Exception;
+	public void create(T bean, Connection connection) throws Exception;
 	
 	public void delete(int id, Connection connection) throws Exception;
 	
