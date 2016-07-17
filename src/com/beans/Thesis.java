@@ -28,6 +28,10 @@ public class Thesis extends Bean {
 	public Thesis(String title, String summary){
 		this(0, title, summary, false, null);
 	}
+
+	public Thesis(){
+		//used by jackson parser
+	}
 	
 	public String getTitle() {
 		return title;

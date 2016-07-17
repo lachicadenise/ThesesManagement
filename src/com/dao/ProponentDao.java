@@ -3,13 +3,56 @@ package com.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.beans.Proponent;
 import com.utils.MySQLConnectionFactory;
 
 public class ProponentDao implements IDao<Proponent>{
 
+	public void create(List<Proponent> proponents, Connection connection) throws SQLException{
+		String query = "insert into proponents(thesisId, title, lastname, firstname, middlename) values";
+		for(int a = 0; a < proponents.size(); a++){
+			if(proponents.get(a).getThesisId() != 0){
+				query += "(?, ?, ?, ?, ?)";
+				if(a < proponents.size() - 1){
+					query += ", ";
+				}
+			}
+		}
+		PreparedStatement statement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+		for(int a = 0; a < proponents.size(); a++){
+			Proponent proponent = proponents.get(a);
+			statement.setInt((a * 5) + 1, proponent.getThesisId());
+			statement.setString((a * 5) + 2, proponent.getTitle());
+			statement.setString((a * 5) + 3, proponent.getLastname());
+			statement.setString((a * 5) + 4, proponent.getFirstname());
+			statement.setString((a * 5) + 5, proponent.getMiddlename());
+		}
+		statement.executeUpdate();
+		ResultSet resultSet = statement.getGeneratedKeys();
+		int index = 0;
+		while(resultSet.next()){
+			proponents.get(index).setId(resultSet.getInt(1));
+			index++;
+		}
+		resultSet.close();
+		statement.close();
+	}
+
+	public static void main(String[] args) throws Exception{
+		Connection connection = MySQLConnectionFactory.createConnection();
+		List<Proponent> proponents = new ArrayList<Proponent>();
+		for(int a = 0; a < 10; a++){
+			proponents.add(new Proponent(1, "Title" + a, "Lastname" + a, "Firstname" + a, "Middlename" + a));
+		}
+		new ProponentDao().create(proponents, connection);
+		connection.close();
+	}
+	
 	@Override
 	public void create(Proponent bean, Connection connection) throws Exception {
 		// TODO Auto-generated method stub
@@ -89,14 +132,6 @@ public class ProponentDao implements IDao<Proponent>{
 		resultSet.close();
 		statement.close();
 		return proponent;
-	}
-	
-	public static void main(String[] args) throws Exception{
-		Connection connection = MySQLConnectionFactory.createConnection();
-		ProponentDao dao = new ProponentDao();
-		Proponent bean = dao.get(1, connection);
-		dao.delete(bean.getId(), connection);
-		connection.close();
 	}
 	
 }

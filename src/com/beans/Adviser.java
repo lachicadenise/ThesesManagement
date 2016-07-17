@@ -21,6 +21,10 @@ public class Adviser extends Bean{
 		this(0, title, lastname, firstname, middlename, false, null);
 	}
 	
+	public Adviser(){
+		//used by jackson parser
+	}
+	
 	public String getTitle() {
 		return title;
 	}

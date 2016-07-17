@@ -23,6 +23,10 @@ public class Proponent extends Bean {
 		this(0, thesisId, title, lastname, firstname, middlename, false, null);
 	}
 
+	public Proponent(){
+		//used by jackson parser
+	}
+	
 	public int getThesisId(){
 		return thesisId;
 	}

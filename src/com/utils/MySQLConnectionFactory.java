@@ -62,7 +62,9 @@ public class MySQLConnectionFactory {
 			dataSource.setPassword(properties.getProperty(KEY_DATABASE_PASSWORD));
 		}
 
-		return dataSource.getConnection();
+		Connection connection = dataSource.getConnection();
+		connection.setAutoCommit(false);
+		return connection;
 		
 	}
 	

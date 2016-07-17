@@ -15,6 +15,10 @@ public class Tag extends Bean {
 		this(0, name, false, null);
 	}
 	
+	public Tag(){
+		//used by jackson parser
+	}
+	
 	public String getName() {
 		return name;
 	}

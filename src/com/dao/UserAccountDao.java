@@ -3,12 +3,29 @@ package com.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 
 import com.beans.UserAccount;
 
 public class UserAccountDao implements IDao<UserAccount> {
 
+	public boolean usernameExists(String username, Connection connection) throws SQLException{
+		boolean usernameExists = false;
+		
+		String query = "select exists(select * from userAccounts where username = ? limit 1)";
+		PreparedStatement statement = connection.prepareStatement(query);
+		statement.setString(1, username);
+		ResultSet resultSet = statement.executeQuery();
+		if(resultSet.next()){
+			usernameExists = resultSet.getBoolean(1);
+		}
+		resultSet.close();
+		statement.close();
+		
+		return usernameExists;
+	}
+	
 	@Override
 	public void create(UserAccount bean, Connection connection) 
 			throws Exception {

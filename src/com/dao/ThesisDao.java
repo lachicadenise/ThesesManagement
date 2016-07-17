@@ -5,26 +5,33 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 
+import com.beans.Proponent;
 import com.beans.Thesis;
 
 public class ThesisDao implements IDao<Thesis> {
-
+	
 	@Override
 	public void create(Thesis bean, Connection connection) 
 			throws Exception {
 		// TODO Auto-generated method stub
+		
 		String query = "insert into theses(title, summary) values(?, ?)";
 		PreparedStatement statement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
 		statement.setString(1, bean.getTitle());
 		statement.setString(2, bean.getSummary());
 		int rowsCreated = statement.executeUpdate();
 		if(rowsCreated == 1){
+			
+			//get auto-generated id
 			ResultSet resultSet = statement.getGeneratedKeys();
 			if(resultSet.next()){
 				bean.setId(resultSet.getInt(1));
 			}
 			resultSet.close();
+			
 			if(bean.getId() != 0){
+				
+				//get auto-generated creation time
 				query = "select creationTime from theses where id = ? limit 1";
 				statement = connection.prepareStatement(query);
 				statement.setInt(1, bean.getId());
@@ -34,6 +41,18 @@ public class ThesisDao implements IDao<Thesis> {
 					bean.setCreationTime(creationTime);
 				}
 				resultSet.close();
+				
+				//register proponents
+				if(bean.getProponents().size() > 0){
+					
+					for(Proponent proponent : bean.getProponents()){
+						proponent.setThesisId(bean.getId());
+					}
+					ProponentDao proponentDao = new ProponentDao();
+					proponentDao.create(bean.getProponents(), connection);
+					
+				}
+				
 			}
 		}
 		statement.close();

@@ -2,6 +2,8 @@ package com.beans;
 
 import java.sql.Timestamp;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 public class UserAccount extends Bean {
 
 	private String username;
@@ -15,12 +17,22 @@ public class UserAccount extends Bean {
 		setUsername(username);
 		setPassword(password);
 		setLastname(lastname);
-		setFirstname(firstname);
+		setFirstname(firstname); 
 		setMiddlename(middlename);
 	}	
 	
-	public UserAccount(String username, String password, String lastname, String firstname, String middlename){
+	public UserAccount(
+			@JsonProperty("username") String username, 
+			@JsonProperty("password") String password, 
+			@JsonProperty("lastname") String lastname, 
+			@JsonProperty("firstname") String firstname, 
+			@JsonProperty("middlename") String middlename
+			){
 		this(0, username, password, lastname, firstname, middlename, false, null);
+	}
+	
+	public UserAccount(){
+		//used by json parser
 	}
 	
 	public String getUsername() {
