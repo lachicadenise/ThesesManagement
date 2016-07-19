@@ -13,9 +13,8 @@ import com.beans.Adviser;
 public class AdviserDao implements IDao<Adviser> {
 
 	@Override
-	public void create(Adviser bean, Connection connection) 
-			throws Exception {
-		// TODO Auto-generated method stub
+	public void create(Adviser bean, Connection connection) throws Exception {
+		
 		String query = "insert into advisers(title, lastname, firstname, middlename) values(?, ?, ?, ?)";
 		PreparedStatement statement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
 		statement.setString(1, bean.getTitle());

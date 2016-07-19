@@ -20,18 +20,18 @@
 		<h2>User Accounts</h2>
 		<br />
 	</div>
-	<div class="col-md-3">
+	<div class="col-md-4">
 		<div class="input-group">
-			<input type="text" class="form-control" placeholder="Search...">
+			<input type="text" class="form-control" placeholder="Search..." id='txtSearchValue'>
 			<span class="input-group-btn">
-				<button type="button" class="btn btn-default">
+				<button type="button" class="btn btn-default" id='btnSearch'>
 					<span class="glyphicon glyphicon-search"></span>
 					Go
 			    </button>
 			</span>
 		</div>
 	</div>
-	<div class="col-md-9">
+	<div class="col-md-8">
 		<button type="button" id="btnCreateUserAccount" class="btn btn-primary">
 			New User Account
 		</button>
@@ -50,17 +50,15 @@
 		</table>
 	</div>
 
-	<div class='modal' id='messageModal' role='dialog'>
-		<div class='modal-dialog'>
-			<div class='modal-content'>
-				<div class='modal-body'>
-					<span>User account created</span>
-				</div>
-				<div class='modal-footer'>
-					<button type="button" class="btn btn-default">Create</button>
-				</div>
-			</div>
-		</div>
+	<div class='text-center'>
+		<ul class='pagination'>
+			<!--
+			<li><a href="#" class='glyphicon glyphicon-backward'></a></li>
+		  	<li><a href="#" class='glyphicon glyphicon-triangle-left'></a></li>
+		  	<li><a href="#" class='glyphicon glyphicon-triangle-right'></a></li>
+		  	<li><a href="#" class='glyphicon glyphicon-forward'></a></li>
+		  	-->
+		</ul>
 	</div>
 
 	<div class="modal" id="userAccountsForm" role="dialog">
@@ -97,8 +95,24 @@
 				</div>
 				<div class="modal-footer">
 					<span class='pull-left'></span>
-					<button type="button" class="btn btn-primary">Create</button>
-					<button type="button" class="btn btn-danger">Cancel</button>
+					<button type="button" class="btn btn-primary" id='btnSubmitUserAccount'>Create</button>
+					<button type="button" class="btn btn-danger" id='btnCloseUserAccountForm'>Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="simpleMessageModal" class="modal" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title"></h4>
+				</div>
+				<div class="modal-body">
+					<p></p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" id='btnCloseMessageModal'>Close</button>
 				</div>
 			</div>
 		</div>
@@ -106,6 +120,6 @@
 
 </body>
 
-<script type="text/javascript" src='script.js'></script>
+<script type="text/javascript" src='userAccounts.js'></script>
 
 </html>

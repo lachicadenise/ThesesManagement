@@ -26,6 +26,34 @@ import com.utils.MySQLConnectionFactory;
 @Path("/userAccounts")
 public class UserAccountService {
 	
+	@GET
+	@Path("/count")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response count(@QueryParam("searchValue") String searchValue){
+		Response response = null;
+		Connection connection = null;
+		try{
+			connection = MySQLConnectionFactory.createConnection();
+			UserAccountDao dao = new UserAccountDao();
+			int count = dao.count(searchValue, connection);
+			JSONObject json = new JSONObject();
+			json.put("count", count);
+			response = Response.ok(json).build();
+		}catch(Exception e){
+			response = Response.serverError().build();
+		} finally{
+			if(connection != null){
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					//ignore
+				}
+			}
+		}
+		return response;
+	}
+	
 	@POST
 	@Path("/create")
 	@Produces(MediaType.APPLICATION_JSON)

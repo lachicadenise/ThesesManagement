@@ -61,7 +61,7 @@ create table userAccounts(
 	primary key(id),
 	unique key(username)
 );
-insert into userAccounts(id, username, password) values(1, 'admin', 'password01');
+insert into userAccounts(id, username, password) values(1, 'admin', '847b3198398590c9a5eb18c54d9b1ebf');
 
 -- create linking table for theses and tags
 drop table if exists theses_tags;

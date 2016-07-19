@@ -10,6 +10,34 @@ import com.beans.UserAccount;
 
 public class UserAccountDao implements IDao<UserAccount> {
 
+	public int count(String searchValue, Connection connection) throws SQLException{
+		int count = 0;
+		searchValue = searchValue
+			    .replace("!", "!!")
+			    .replace("%", "!%")
+			    .replace("_", "!_")
+			    .replace("[", "![");
+		String query = 
+				"select count(*) "
+				+ "from userAccounts where "
+				+ "username like ? or "
+				+ "lastname like ? or "
+				+ "firstname like ? or "
+				+ "middlename like ?";
+		PreparedStatement statement = connection.prepareStatement(query);
+		statement.setString(1, "%" + searchValue + "%");
+		statement.setString(2, "%" + searchValue + "%");
+		statement.setString(3, "%" + searchValue + "%");
+		statement.setString(4, "%" + searchValue + "%");
+		ResultSet resultSet = statement.executeQuery();
+		if(resultSet.next()){
+			count = resultSet.getInt(1);
+		}
+		resultSet.close();
+		statement.close();
+		return count;
+	}
+	
 	public boolean usernameExists(String username, Connection connection) throws SQLException{
 		boolean usernameExists = false;
 		
