@@ -16,24 +16,27 @@ $(document).ready(function(){
 	
 	$('#btnCloseMessageModal').on('click', function(){
 		setMessageModalVisible(false);
-		setMessageModalContent('', '');
 	});
 	
 	function setMessageModalContent(title, message){
-		$('#simpleMessageModal div div .modal-header .modal-title').text(title);
-		$('#simpleMessageModal div div .modal-body p').text(message);
+		$('#messageModal div div .modal-header .modal-title').text(title);
+		$('#messageModal div div .modal-body p').text(message);
 	}
 	
 	function setMessageModalVisible(visible){
 		if(visible){
-			$('#simpleMessageModal').fadeIn();
+			$('#messageModal').fadeIn();
 		}else{
-			$('#simpleMessageModal').fadeOut();
+			$('#messageModal').fadeOut();
 		}
 	}
 	
+	function showMessageModalFast(){
+		$('#messageModal').fadeIn().delay(500).fadeOut();
+	}
+	
 	function setUserAccountFormContent(userAccount){
-		$('#userAccountsForm div div .modal-header h4').text((userAccount == null ? "Create" : "Update") + " New User Account");
+		$('#userAccountsForm div div .modal-header h4').text((userAccount == null ? "New" : "Update") + " User Account");
 		$('#userAccountsForm div div .modal-body').children('div').each(function(){
 			$(this).removeClass('has-error').removeClass('has-success');
 			$('input', this).val('');
@@ -73,7 +76,7 @@ $(document).ready(function(){
 		}
 		
 		var hasError = false;
-		var elementIds = ['#username', '#password', '#confirmPassword', '#lastname', '#firstname'];
+		var elementIds = ['#username', '#lastname', '#firstname'];
 		$.each(elementIds, function(index, item){
 			if(validateField(item)){
 				hasError = true;
@@ -81,57 +84,47 @@ $(document).ready(function(){
 		});
 		
 		if(!hasError){
-		
+			
 			var userAccount = {
 				username: $('#username').val(),
-				password: $('#password').val(),
+				password: CryptoJS.MD5('d3f_p@ss').toString(),
 				lastname: $('#lastname').val(),
 				firstname: $('#firstname').val(),
 				middlename: $('#middlename').val()
 			};
 			
-			if(userAccount.password == $('#confirmPassword').val()){
-				
-				userAccount.password = CryptoJS.MD5(userAccount.password).toString();
-				
-				$.ajax({
-					type: 'GET',
-					url: '/ThesesManagement/rest/userAccounts/usernameExists?username=' + userAccount.username,
-					success: function(data){
+			$.ajax({
+				type: 'GET',
+				url: '/ThesesManagement/rest/userAccounts/usernameExists?username=' + userAccount.username,
+				success: function(data){
+					
+					if(!data.usernameExists){
 						
-						if(!data.usernameExists){
-							
-							$.ajax({
-								type: 'POST',
-								contentType: 'application/json',
-								url: '/ThesesManagement/rest/userAccounts/create',
-								data: JSON.stringify(userAccount),
-								success: function(data){
-									setUserAccountFormContent(null);
-									setUserAccountFormVisible(false);
-									setMessageModalContent('User Accounts', 'User Account successfully created.');
-									setMessageModalVisible(true);
-								},
-								error: function(jqXHR, textStatus, errorThrown){
-									setUserAccountFormMessage('Server error occurred.');
-								}
-							});
-							
-						} else {
-							setUserAccountFormMessage('Username already exists');
-							$('#username').parent().removeClass('has-success').addClass('has-error');
-						}
-					},
-					error: function(jqXHR, textStatus, errorThrown){
-						setUserAccountFormMessage('Server error occurred.');
+						$.ajax({
+							type: 'POST',
+							contentType: 'application/json',
+							url: '/ThesesManagement/rest/userAccounts/create',
+							data: JSON.stringify(userAccount),
+							success: function(data){
+								setUserAccountFormContent(null);
+								setUserAccountFormVisible(false);
+								setMessageModalContent('User Accounts', 'User Account successfully created.');
+								showMessageModalFast();
+							},
+							error: function(jqXHR, textStatus, errorThrown){
+								setUserAccountFormMessage('Server error occurred.');
+							}
+						});
+						
+					} else {
+						setUserAccountFormMessage('Username already exists');
+						$('#username').parent().removeClass('has-success').addClass('has-error');
 					}
-				});
-				
-			} else {
-				$('#password').parent().removeClass('has-success').addClass('has-error');
-				$('#confirmPassword').parent().removeClass('has-success').addClass('has-error');
-				setUserAccountFormMessage('Passwords don\'t match');
-			}
+				},
+				error: function(jqXHR, textStatus, errorThrown){
+					setUserAccountFormMessage('Server error occurred.');
+				}
+			});
 			
 		}else{
 			setUserAccountFormMessage('Fill-up all required fields');
@@ -143,14 +136,22 @@ $(document).ready(function(){
 		loadUserAccounts(1);
 	});
 	
+	$('#txtSearchValue').on('keypress', function(event){
+		var keyCode = (event.keyCode ? event.keyCode : event.which);
+		if(keyCode == '13'){
+			$('#btnSearch').click();
+		}
+	});
+	
 	function loadUserAccounts(startingNumber){
 		
 		$.ajax({
 			type: 'GET',
 			url: '/ThesesManagement/rest/userAccounts/count?searchValue=' + $('#txtSearchValue').val(),
 			success: function(data){
-				
-				
+	
+				setMessageModalContent('User Accounts', 'Found ' + data.count);
+				showMessageModalFast();
 				
 			},
 			error: function(jqXHR, textStatus, errorThrown){

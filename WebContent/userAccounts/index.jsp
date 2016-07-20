@@ -5,13 +5,16 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <script type="text/javascript" src="../plugins/jquery-3.0.0.min.js"></script>
-<script type="text/javascript" src="../plugins/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
-<script type='text/javascript' src='../plugins/CryptoJS-master/rollups/md5.js'></script>
-<link rel="stylesheet" href="../plugins/bootstrap-3.3.6-dist/css/bootstrap.min.css">
+<script type="text/javascript"
+	src="../plugins/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
+<script type='text/javascript'
+	src='../plugins/CryptoJS-master/rollups/md5.js'></script>
+<link rel="stylesheet"
+	href="../plugins/bootstrap-3.3.6-dist/css/bootstrap.min.css">
 <style type="text/css">
-	.table > tbody > tr > td {
-		vertical-align: middle;
-	}
+.table>tbody>tr>td {
+	vertical-align: middle;
+}
 </style>
 <title>Theses Management</title>
 </head>
@@ -22,19 +25,17 @@
 	</div>
 	<div class="col-md-4">
 		<div class="input-group">
-			<input type="text" class="form-control" placeholder="Search..." id='txtSearchValue'>
-			<span class="input-group-btn">
+			<input type="text" class="form-control" placeholder="Search..."
+				id='txtSearchValue'> <span class="input-group-btn">
 				<button type="button" class="btn btn-default" id='btnSearch'>
-					<span class="glyphicon glyphicon-search"></span>
-					Go
-			    </button>
+					<span class="glyphicon glyphicon-search"></span> Go
+				</button>
 			</span>
 		</div>
 	</div>
-	<div class="col-md-8">
-		<button type="button" id="btnCreateUserAccount" class="btn btn-primary">
-			New User Account
-		</button>
+	<div class="col-md-8 pull-right">
+		<button type="button" id="btnCreateUserAccount"
+			class="btn btn-primary">New User Account</button>
 	</div>
 	<div class='col-md-12 container'>
 		<br />
@@ -52,12 +53,10 @@
 
 	<div class='text-center'>
 		<ul class='pagination'>
-			<!--
 			<li><a href="#" class='glyphicon glyphicon-backward'></a></li>
-		  	<li><a href="#" class='glyphicon glyphicon-triangle-left'></a></li>
-		  	<li><a href="#" class='glyphicon glyphicon-triangle-right'></a></li>
-		  	<li><a href="#" class='glyphicon glyphicon-forward'></a></li>
-		  	-->
+			<li><a href="#" class='glyphicon glyphicon-triangle-left'></a></li>
+			<li><a href="#" class='glyphicon glyphicon-triangle-right'></a></li>
+			<li><a href="#" class='glyphicon glyphicon-forward'></a></li>
 		</ul>
 	</div>
 
@@ -69,54 +68,34 @@
 				</div>
 				<div class="modal-body">
 					<div class='form-group'>
-						<label for='username'>Username</label>
-						<input type='text' class='form-control' id='username' />
+						<label for='username'>Username</label> <input type='text'
+							class='form-control' id='username' />
 					</div>
 					<div class='form-group'>
-						<label for='password'>Password</label>
-						<input type='password' class='form-control' id='password' />
+						<label for='lastname'>Lastname</label> <input type='text'
+							class='form-control' id='lastname' />
 					</div>
 					<div class='form-group'>
-						<label for='confirmPassword'>Confirm Password</label>
-						<input type='password' class='form-control' id='confirmPassword' />
+						<label for='firstname'>Firstname</label> <input type='text'
+							class='form-control' id='firstname' required='true' />
 					</div>
 					<div class='form-group'>
-						<label for='lastname'>Lastname</label>
-						<input type='text' class='form-control' id='lastname' />
-					</div>
-					<div class='form-group'>
-						<label for='firstname'>Firstname</label>
-						<input type='text' class='form-control' id='firstname' required='true'/>
-					</div>
-					<div class='form-group'>
-						<label for='middlename'>Middlename</label>
-						<input type='text' class='form-control' id='middlename' />
+						<label for='middlename'>Middlename</label> <input type='text'
+							class='form-control' id='middlename' />
 					</div>
 				</div>
 				<div class="modal-footer">
 					<span class='pull-left'></span>
-					<button type="button" class="btn btn-primary" id='btnSubmitUserAccount'>Create</button>
-					<button type="button" class="btn btn-danger" id='btnCloseUserAccountForm'>Cancel</button>
+					<button type="button" class="btn btn-primary"
+						id='btnSubmitUserAccount'>Create</button>
+					<button type="button" class="btn btn-danger"
+						id='btnCloseUserAccountForm'>Cancel</button>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<div id="simpleMessageModal" class="modal" role="dialog">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title"></h4>
-				</div>
-				<div class="modal-body">
-					<p></p>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" id='btnCloseMessageModal'>Close</button>
-				</div>
-			</div>
-		</div>
-	</div>
+	<%@include file='../templates/messageModal.html'%>
 
 </body>
 
