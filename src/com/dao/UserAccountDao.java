@@ -5,11 +5,56 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.beans.UserAccount;
 
 public class UserAccountDao implements IDao<UserAccount> {
 
+	public List<UserAccount> search(String value, int startFrom, int take, Connection connection) throws SQLException{
+		List<UserAccount> userAccounts = new ArrayList<UserAccount>();
+		String query = 
+				"select "
+					+ "id, "
+					+ "username, "
+					+ "lastname, "
+					+ "firstname, "
+					+ "middlename "
+				+ "from userAccounts where "
+				+ "("
+					+ "lower(username) like ? or "
+					+ "lower(lastname) like ? or "
+					+ "lower(firstname) like ? or "
+					+ "lower(middlename) like ?"
+				+ ") "
+				+ "and isDeleted = ? "
+				+ "and username != ? "
+				+ "order by lastname asc "
+				+ "limit " + startFrom + ", " + take;
+		value = "%" + value.toLowerCase() + "%";
+		PreparedStatement statement = connection.prepareStatement(query);
+		statement.setString(1, value);
+		statement.setString(2, value);
+		statement.setString(3, value);
+		statement.setString(4, value);
+		statement.setBoolean(5, false);
+		statement.setString(6, "admin");
+		ResultSet resultSet = statement.executeQuery();
+		while(resultSet.next()){
+			UserAccount userAccount = new UserAccount();
+			userAccount.setId(resultSet.getInt("id"));
+			userAccount.setUsername(resultSet.getString("username"));
+			userAccount.setLastname(resultSet.getString("lastname"));
+			userAccount.setFirstname(resultSet.getString("firstname"));
+			userAccount.setMiddlename(resultSet.getString("middlename"));
+			userAccounts.add(userAccount);
+		}
+		resultSet.close();
+		statement.close();
+		return userAccounts;
+	}
+	
 	public int count(String searchValue, Connection connection) throws SQLException{
 		int count = 0;
 		searchValue = searchValue

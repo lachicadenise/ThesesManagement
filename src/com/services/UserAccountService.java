@@ -27,6 +27,32 @@ import com.utils.MySQLConnectionFactory;
 public class UserAccountService {
 	
 	@GET
+	@Path("/search")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response search(@QueryParam("value") String value, @QueryParam("startFrom") int startFrom, @QueryParam("take") int take){
+		Response response = Response.serverError().build();
+		Connection connection = null;
+		try{
+			connection = MySQLConnectionFactory.createConnection();
+			UserAccountDao dao = new UserAccountDao();
+			List<UserAccount> userAccounts = dao.search(value, startFrom, take, connection);
+			response = Response.ok(userAccounts).build();
+		}catch(Exception e){
+			response = Response.serverError().build();
+		}finally{
+			if(connection != null){
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return response;
+	}
+	
+	@GET
 	@Path("/count")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response count(@QueryParam("searchValue") String searchValue){

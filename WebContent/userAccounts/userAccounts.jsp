@@ -3,19 +3,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
 <script type="text/javascript" src="../plugins/jquery-3.0.0.min.js"></script>
-<script type="text/javascript"
-	src="../plugins/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
-<script type='text/javascript'
-	src='../plugins/CryptoJS-master/rollups/md5.js'></script>
-<link rel="stylesheet"
-	href="../plugins/bootstrap-3.3.6-dist/css/bootstrap.min.css">
-<style type="text/css">
-.table>tbody>tr>td {
-	vertical-align: middle;
-}
-</style>
+<script type="text/javascript" src="../plugins/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
+<script type='text/javascript' src='../plugins/CryptoJS-master/rollups/md5.js'></script>
+<link rel="stylesheet" href="../plugins/bootstrap-3.3.6-dist/css/bootstrap.min.css">
+
 <title>Theses Management</title>
 </head>
 <body>
@@ -43,7 +38,7 @@
 			<thead>
 				<tr>
 					<th class='col-md-3'>Username</th>
-					<th class='col-md-6'>Name</th>
+					<th class='col-md-5'>Name</th>
 					<th>Actions</th>
 				</tr>
 			</thead>
@@ -52,11 +47,7 @@
 	</div>
 
 	<div class='text-center'>
-		<ul class='pagination'>
-			<li><a href="#" class='glyphicon glyphicon-backward'></a></li>
-			<li><a href="#" class='glyphicon glyphicon-triangle-left'></a></li>
-			<li><a href="#" class='glyphicon glyphicon-triangle-right'></a></li>
-			<li><a href="#" class='glyphicon glyphicon-forward'></a></li>
+		<ul class="pagination" id='paginationButtons'>
 		</ul>
 	</div>
 
@@ -86,8 +77,7 @@
 				</div>
 				<div class="modal-footer">
 					<span class='pull-left'></span>
-					<button type="button" class="btn btn-primary"
-						id='btnSubmitUserAccount'>Create</button>
+					<button type="button" class="btn btn-primary" id='btnSubmitUserAccount'>Create</button>
 					<button type="button" class="btn btn-danger"
 						id='btnCloseUserAccountForm'>Cancel</button>
 				</div>

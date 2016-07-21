@@ -133,7 +133,7 @@ $(document).ready(function(){
 	}
 
 	$('#btnSearch').on('click', function(){
-		loadUserAccounts(1);
+		loadUserAccounts(0);
 	});
 	
 	$('#txtSearchValue').on('keypress', function(event){
@@ -143,20 +143,83 @@ $(document).ready(function(){
 		}
 	});
 	
-	function loadUserAccounts(startingNumber){
+	function loadUserAccounts(pageNumber){
 		
 		$.ajax({
 			type: 'GET',
 			url: '/ThesesManagement/rest/userAccounts/count?searchValue=' + $('#txtSearchValue').val(),
 			success: function(data){
 	
-				setMessageModalContent('User Accounts', 'Found ' + data.count);
-				showMessageModalFast();
+				var userAccountsSearchTotal = data.count;
+				
+				if(userAccountsSearchTotal == 0){
+					setMessageModalContent('User Accounts', 'Nothing found');
+					showMessageModalFast();	
+				} else {
+					var searchValue = $('#txtSearchValue').val();
+					var take = 10;
+					$.ajax({
+						type: 'GET',
+						url: '/ThesesManagement/rest/userAccounts/search?value=' + searchValue + '&startFrom=' + pageNumber + '&take=' + take,
+						success: function(result){
+							
+							$('#tblUserAccounts tbody').empty();
+							$.each(result, function(index, item){
+								var row = '<tr>';
+								row += '<td>' + item.username + '</td>';
+								var name = item.lastname + ', ' + item.firstname + ' ' + item.middlename;
+								row += '<td>' + name + '</td>';
+								row += '<td>&nbsp;</td>';
+								row += '</tr>';
+								$('#tblUserAccounts tbody').append(row);
+							});
+
+							$('#paginationButtons').empty();
+							$('#paginationButtons').append('<li><a href="#"><span class="glyphicon glyphicon-backward"></span>&nbsp;</a></li>');
+							$('#paginationButtons').append('<li><a href="#"><span class="glyphicon glyphicon-triangle-left"></span>&nbsp;</a></li>');
+							var numberButtonsCount = userAccountsSearchTotal / take;
+							if(numberButtonsCount > 5){
+								numberButtonsCount = 5;
+							}
+							for(var a = 0; a < numberButtonsCount; a++){
+								$('#paginationButtons').append('<li' + (a == 0 ? ' class="active"' : '') + '><a href="#">' + (a + 1) + '</a></li>');
+							}
+							$('#paginationButtons').append('<li><a href="#"><span class="glyphicon glyphicon-triangle-right"></span>&nbsp;</a></li>');
+							$('#paginationButtons').append('<li><a href="#"><span class="glyphicon glyphicon-forward"></span>&nbsp;</a></li>');
+							
+//							var listContent = '';
+//							listContent += '<li data-navValue="first"><span class="glyphicon glyphicon-backward"></span></li>';
+//							listContent += '<li data-navValue="previous"><span class="glyphicon glyphicon-triangle-left"></span></li>';
+//							var navButtonCount = userAccountsSearchTotal / 20;
+//							if(navButtonCount > 5){
+//								navButtonCount = 5;
+//							}
+//							for(var a = 0; a < navButtonCount; a++){
+//								if(a == 0){
+//									listContent += '<li data-navValue="' + (a + 1) + '" class="active"><a href="#">' + (a + 1) + '</a></li>';
+//								}else{
+//									listContent += '<li data-navValue="' + (a + 1) + '"><a href="#">' + (a + 1) + '</a></li>';	
+//								}
+//							}
+//							listContent += '<li data-navValue="next"><a href="#"><span class="glyphicon glyphicon-triangle-right"></a></span></li>';
+//							listContent += '<li data-navValue="last"><a href="#"><span class="glyphicon glyphicon-forward"></span></a></li>';
+//							
+//							$('#paginationButtons').html(listContent);
+							
+						},
+						error: function(jqXHR, textStatus, errorThrown){
+							setMessageModalContent('User Accounts', "Server error occurred.");
+							showMessageModalFast();
+						}
+					});
+					
+				}
 				
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				setUserAccountFormMessage('Server error occurred.');
 			}
+			
 		});
 		
 	}
