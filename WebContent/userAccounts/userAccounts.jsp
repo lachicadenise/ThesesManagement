@@ -85,7 +85,7 @@
 		</div>
 	</div>
 
-	<%@include file='../templates/messageModal.html'%>
+	<%@include file='../common/messageModal.html'%>
 
 </body>
 

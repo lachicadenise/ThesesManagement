@@ -1,3 +1,8 @@
+<!-- 
+This should contain the login page
+Or the search as guest page?
+-->
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -18,38 +23,6 @@
 		
 		<div class="row">
 			
-			<!-- side bar -->
-			<div class="col-md-2 well">
-				<h3 class="text-info">
-					Theses <br />
-					Management
-				</h3>
-				<br />
-				<p>
-					<small>
-						Logged in as:
-					</small>
-				</p>
-				<p>
-					<strong>Zabala, Joshua Perez</strong>
-				</p>
-				<br />
-				<div class="form-group">
-					<div class="list-group">
-						<a href="#" class="list-group-item">Home<i class="glyphicon glyphicon-home pull-right"></i></a>
-						<a href="#theses" class="list-group-item">Theses<i class="glyphicon glyphicon-book pull-right"></i></a>
-						<a href="#authors" class="list-group-item">Authors<i class="glyphicon glyphicon-pencil pull-right"></i></a>
-						<a href="#advisers" class="list-group-item">Advisers<i class="glyphicon glyphicon-user pull-right"></i></a>
-						<a href="#tags" class="list-group-item">Tags<i class="glyphicon glyphicon-tags pull-right"></i></a>
-						<a href="#userAccounts" class="list-group-item">User Accounts<i class="glyphicon glyphicon-lock pull-right"></i></a>
-					</div>
-				</div>
-				<div class="form-group">
-					<button class="btn btn-default form-control">Log Out&nbsp;<span class="glyphicon glyphicon-log-out"></span></button>
-				</div>
-			</div>
-			
-			<!-- contents -->
 			<div class="col-md-10 well">
 				<p>Contents</p>
 			</div>

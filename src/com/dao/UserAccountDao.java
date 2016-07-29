@@ -12,7 +12,7 @@ import com.beans.UserAccount;
 
 public class UserAccountDao implements IDao<UserAccount> {
 
-	public List<UserAccount> search(String value, int startFrom, int take, Connection connection) throws SQLException{
+	public List<UserAccount> search(String value, int pageNumber, Connection connection) throws SQLException{
 		List<UserAccount> userAccounts = new ArrayList<UserAccount>();
 		String query = 
 				"select "
@@ -31,7 +31,7 @@ public class UserAccountDao implements IDao<UserAccount> {
 				+ "and isDeleted = ? "
 				+ "and username != ? "
 				+ "order by lastname asc "
-				+ "limit " + startFrom + ", " + take;
+				+ "limit " + (pageNumber * 15) + ", " + 15;
 		value = "%" + value.toLowerCase() + "%";
 		PreparedStatement statement = connection.prepareStatement(query);
 		statement.setString(1, value);
@@ -57,11 +57,6 @@ public class UserAccountDao implements IDao<UserAccount> {
 	
 	public int count(String searchValue, Connection connection) throws SQLException{
 		int count = 0;
-		searchValue = searchValue
-			    .replace("!", "!!")
-			    .replace("%", "!%")
-			    .replace("_", "!_")
-			    .replace("[", "![");
 		String query = 
 				"select count(*) "
 				+ "from userAccounts where "
@@ -69,11 +64,12 @@ public class UserAccountDao implements IDao<UserAccount> {
 				+ "lastname like ? or "
 				+ "firstname like ? or "
 				+ "middlename like ?";
+		searchValue = "%" + searchValue + "%";
 		PreparedStatement statement = connection.prepareStatement(query);
-		statement.setString(1, "%" + searchValue + "%");
-		statement.setString(2, "%" + searchValue + "%");
-		statement.setString(3, "%" + searchValue + "%");
-		statement.setString(4, "%" + searchValue + "%");
+		statement.setString(1, searchValue);
+		statement.setString(2, searchValue);
+		statement.setString(3, searchValue);
+		statement.setString(4, searchValue);
 		ResultSet resultSet = statement.executeQuery();
 		if(resultSet.next()){
 			count = resultSet.getInt(1);

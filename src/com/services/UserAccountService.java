@@ -3,7 +3,6 @@ package com.services;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -11,6 +10,7 @@ import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -27,15 +27,15 @@ import com.utils.MySQLConnectionFactory;
 public class UserAccountService {
 	
 	@GET
-	@Path("/search")
+	@Path("/search/{value}/{pageNumber}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response search(@QueryParam("value") String value, @QueryParam("startFrom") int startFrom, @QueryParam("take") int take){
+	public Response search(@PathParam("value") String value, @PathParam("pageNumber") int pageNumber){
 		Response response = Response.serverError().build();
 		Connection connection = null;
 		try{
 			connection = MySQLConnectionFactory.createConnection();
 			UserAccountDao dao = new UserAccountDao();
-			List<UserAccount> userAccounts = dao.search(value, startFrom, take, connection);
+			List<UserAccount> userAccounts = dao.search(value, pageNumber, connection);
 			response = Response.ok(userAccounts).build();
 		}catch(Exception e){
 			response = Response.serverError().build();
@@ -55,13 +55,13 @@ public class UserAccountService {
 	@GET
 	@Path("/count")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response count(@QueryParam("searchValue") String searchValue){
+	public Response count(@QueryParam("value") @DefaultValue("") String value){
 		Response response = null;
 		Connection connection = null;
 		try{
 			connection = MySQLConnectionFactory.createConnection();
 			UserAccountDao dao = new UserAccountDao();
-			int count = dao.count(searchValue, connection);
+			int count = dao.count(value, connection);
 			JSONObject json = new JSONObject();
 			json.put("count", count);
 			response = Response.ok(json).build();
@@ -120,16 +120,23 @@ public class UserAccountService {
 	@GET
 	@Path("/usernameExists")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response usernameExists(@DefaultValue("") @QueryParam("username") String username){
-		boolean usernameExists = false;
+	public Response usernameExists(@QueryParam("username") String username){
+	
+		Response response = null;
+		
 		Connection connection = null;
 		try {
 			connection = MySQLConnectionFactory.createConnection();
 			UserAccountDao dao = new UserAccountDao();
-			usernameExists = dao.usernameExists(username, connection);
-		} catch (ClassNotFoundException | IOException | SQLException e) {
+			boolean usernameExists = dao.usernameExists(username, connection);
+			
+			JSONObject json = new JSONObject();
+			json.put("usernameExists", usernameExists);
+			response = Response.ok(json).build();
+			
+		} catch (ClassNotFoundException | IOException | SQLException | JSONException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			response = Response.serverError().build();
 		}finally {
 			if(connection != null){
 				try {
@@ -140,49 +147,9 @@ public class UserAccountService {
 				}
 			}
 		}
-		JSONObject result = new JSONObject();
-		try {
-			result.put("usernameExists", usernameExists);
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return Response.ok(result).build();
+		
+		return response;
+		
 	}
-	
-	@GET
-	@Path("/get")
-	@Produces({MediaType.APPLICATION_JSON})
-	public Response get(
-			@DefaultValue("") @QueryParam("searchValue") String searchValue, 
-			@DefaultValue("30") @QueryParam("limit") int limit,
-			@DefaultValue("0") @QueryParam("from") int from
-			){
-		List<UserAccount> userAccounts = new ArrayList<UserAccount>();
-//		try{
-//			UserAccountDao dao = new UserAccountDao();
-//			userAccounts = dao.get(searchValue, from, limit, null);
-//		} catch(Exception e){
-//			e.printStackTrace();
-//		}
-		return Response.ok(userAccounts).build();
-	}
-	
-//	@GET
-//	@Path("/Get/{id}")
-//	@Produces(MediaType.APPLICATION_JSON)
-//	public Response get(@PathParam("id") int id){
-//		UserAccount userAccount = null;
-//		try{
-//			UserAccountDao dao = new UserAccountDao();
-//			userAccount = dao.get(id, null);
-//		} catch(Exception e){
-//			e.printStackTrace();
-//		}
-//		return Response.
-//				status(userAccount == null ? 204 : 200).
-//				entity(userAccount).
-//				build();
-//	}
 	
 }

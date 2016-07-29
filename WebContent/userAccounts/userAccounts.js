@@ -1,4 +1,6 @@
 $(document).ready(function(){
+
+	$("#navBtnUserAccounts").addClass("active");
 	
 	$('#btnCreateUserAccount').on('click', function(){
 		setUserAccountFormContent(null);
