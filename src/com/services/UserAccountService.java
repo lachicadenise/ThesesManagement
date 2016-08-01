@@ -10,7 +10,6 @@ import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -27,15 +26,19 @@ import com.utils.MySQLConnectionFactory;
 public class UserAccountService {
 	
 	@GET
-	@Path("/search/{value}/{pageNumber}")
+	@Path("/search")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response search(@PathParam("value") String value, @PathParam("pageNumber") int pageNumber){
+	public Response search(
+			@QueryParam("value") @DefaultValue("") String value, 
+			@QueryParam("pageNumber") @DefaultValue("0") int pageNumber,
+			@QueryParam("itemsPerPage") @DefaultValue("10") int itemsPerPage
+			){
 		Response response = Response.serverError().build();
 		Connection connection = null;
 		try{
 			connection = MySQLConnectionFactory.createConnection();
 			UserAccountDao dao = new UserAccountDao();
-			List<UserAccount> userAccounts = dao.search(value, pageNumber, connection);
+			List<UserAccount> userAccounts = dao.search(value, pageNumber, itemsPerPage, connection);
 			response = Response.ok(userAccounts).build();
 		}catch(Exception e){
 			response = Response.serverError().build();
@@ -84,7 +87,7 @@ public class UserAccountService {
 	@Path("/create")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response create(UserAccount userAccount){
+	public Response create(UserAccount userAccount){	
 		Response response = null;
 		if(userAccount == null){
 			response = Response.serverError().entity("UserAccount cannot be null").build();
@@ -98,7 +101,7 @@ public class UserAccountService {
 				}else{
 					dao.create(userAccount, connection);
 					connection.commit();
-					response = Response.ok(userAccount).build();					
+					response = Response.ok(userAccount).build();			
 				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -150,6 +153,33 @@ public class UserAccountService {
 		
 		return response;
 		
+	}
+	
+	@GET
+	@Path("/get")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response get(@QueryParam("id") int id){
+		Response response = null;
+		Connection connection = null;
+		try {
+			connection = MySQLConnectionFactory.createConnection();
+			UserAccountDao dao = new UserAccountDao();
+			UserAccount userAccount = dao.get(id, connection);
+			connection.close();
+			response = Response.ok(userAccount).build();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			response = Response.serverError().build();
+		} finally {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return response;
 	}
 	
 }

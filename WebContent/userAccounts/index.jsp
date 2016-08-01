@@ -5,6 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <%@ include file="../common/corePlugIns.html"%>
+<script type="text/javascript" src="../plugins/CryptoJS-master/rollups/md5.js"></script>
 <link rel="stylesheet" href="style.css" />
 <title>User Accounts - Theses Management</title>
 </head>
@@ -26,35 +27,69 @@
 					</div>
 					<div class="col-md-7 col-xs-7">
 						<div class="input-group">
-							<button class="btn btn-primary" id="btnNew">New User
-								Account</button>
-							<button class="btn btn-info" id="btnEdit">Edit</button>
-							<button class="btn btn-danger" id="btnDelete">Delete</button>
+							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#userAccountsForm" id="btnNew">New User Account</button>
+							<button type="button" class="btn btn-info" id="btnEdit">Edit</button>
+							<button type="button" class="btn btn-danger" id="btnDelete">Delete</button>
 						</div>
 					</div>
 				</div>
 				<div class="container-fluid" style="height: 20px;"></div>
 				<div class="row col-md-12 col-xs-12">
 					<div class="container-fluid">
-						<table class="table table-condensed table-bordered"
-							id="tblSearchResults">
+						<table class="table table-condensed table-bordered" id="tblSearchResults">
 							<thead>
 								<tr>
-									<th class="col-md-3">Username</th>
-									<th class="col-md-6">Name</th>
-									<th class="col-md-3">Actions</th>
+									<th class="col-md-5">Username</th>
+									<th class="col-md-7">Name</th>
 								</tr>
 							</thead>
 							<tbody>
 							</tbody>
 						</table>
-						<ul class="pagination">
-						</ul>
+						<div class="text-center">
+							<ul class="pagination">
+							</ul>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	
+	<!-- User Account Form -->
+	<div id="userAccountForm" class="modal" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header"><h4 id="title"></h4></div>
+				<div class="modal-body">
+					<div class="form-group">
+						
+						<label for="username">Username</label>
+						<input type="text" id="username" class="form-control" />
+						
+						<label for="username">Lastname</label>
+						<input type="text" id="lastname" class="form-control" />
+						
+						<label for="username">Firstname</label>
+						<input type="text" id="firstname" class="form-control" />
+						
+						<label for="username">Middlename</label>
+						<input type="text" id="middlename" class="form-control" />
+						
+					</div>
+				</div>
+				<div class="modal-footer">
+					<div class="input-group">
+						<button class="btn btn-primary">Submit</button>
+						<button class="btn btn-danger">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<%@ include file="../common/messageModal.html" %>
+	
 </body>
 <script type="text/javascript" src="script.js"></script>
 </html>

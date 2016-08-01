@@ -12,7 +12,7 @@ import com.beans.UserAccount;
 
 public class UserAccountDao implements IDao<UserAccount> {
 
-	public List<UserAccount> search(String value, int pageNumber, Connection connection) throws SQLException{
+	public List<UserAccount> search(String value, int pageNumber, int itemsPerPage, Connection connection) throws SQLException{
 		List<UserAccount> userAccounts = new ArrayList<UserAccount>();
 		String query = 
 				"select "
@@ -29,9 +29,8 @@ public class UserAccountDao implements IDao<UserAccount> {
 					+ "lower(middlename) like ?"
 				+ ") "
 				+ "and isDeleted = ? "
-				+ "and username != ? "
 				+ "order by lastname asc "
-				+ "limit " + (pageNumber * 15) + ", " + 15;
+				+ "limit ?, ?";
 		value = "%" + value.toLowerCase() + "%";
 		PreparedStatement statement = connection.prepareStatement(query);
 		statement.setString(1, value);
@@ -39,7 +38,8 @@ public class UserAccountDao implements IDao<UserAccount> {
 		statement.setString(3, value);
 		statement.setString(4, value);
 		statement.setBoolean(5, false);
-		statement.setString(6, "admin");
+		statement.setInt(6, (pageNumber - 1) * itemsPerPage);
+		statement.setInt(7, itemsPerPage);
 		ResultSet resultSet = statement.executeQuery();
 		while(resultSet.next()){
 			UserAccount userAccount = new UserAccount();
@@ -60,10 +60,10 @@ public class UserAccountDao implements IDao<UserAccount> {
 		String query = 
 				"select count(*) "
 				+ "from userAccounts where "
-				+ "username like ? or "
-				+ "lastname like ? or "
-				+ "firstname like ? or "
-				+ "middlename like ?";
+					+ "username like ? or "
+					+ "lastname like ? or "
+					+ "firstname like ? or "
+					+ "middlename like ?";
 		searchValue = "%" + searchValue + "%";
 		PreparedStatement statement = connection.prepareStatement(query);
 		statement.setString(1, searchValue);

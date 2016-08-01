@@ -2,3 +2,8 @@
 	margin-top: 15px;
 	margin-bottom: 15px;
 }
+
+#tblSearchResults > tbody > tr.active > td{
+	background-color: rgb(51, 122, 183);
+	color: rgb(255, 255, 255);
+}
