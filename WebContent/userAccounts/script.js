@@ -171,8 +171,11 @@ $(document).ready(function(){
 	});
 	
 	$("#btnNew").on("click", function(){
-		$("#userAccountForm").find("#title").text("Create User Account");
-		$("#userAccountForm").fadeIn();
+		var $form = $("#userAccountForm");
+		$form.find("#title").text("Create User Account");
+		$form.find("input").val("");
+		$form.find(".btn-warning").parent().addClass("hidden");
+		$form.fadeIn();
 	});
 	
 	$("#userAccountForm").find(".btn-danger").on("click", function(){
@@ -232,9 +235,8 @@ $(document).ready(function(){
 					$("#userAccountForm").find("#middlename").val(responseData.middlename);
 					
 					$("#userAccountForm").find("#title").text("Edit User Account");
-					$("#userAccountForm").fadeIn();
-					
 					$("#userAccountForm").find(".btn-warning").parent().removeClass("hidden");
+					$("#userAccountForm").fadeIn();
 					
 				},
 				error: function(jqXHR, errorThrown, textStatus){
@@ -247,7 +249,38 @@ $(document).ready(function(){
 	});
 	
 	$("#userAccountForm").find(".btn-warning").on("click", function(){
-		alert("User wants to change password");
+		var selectedId = $("#tblSearchResults > tbody > tr.active").data("id");
+		$("#userAccountForm").fadeOut();
+		$("#form_changePassword").attr("data-userId", selectedId);
+		$("#form_changePassword").find("strong").remove();
+		$("#form_changePassword").fadeIn();
+	});
+	
+	$("#form_changePassword").find(".btn-primary").on("click", function(){
+		var $form = $("#form_changePassword");
+		$form.find("strong").remove();
+		var hasErrors = false;
+		$.each($form.find("input"), function(index, item){
+			if($(item).val().trim().length < 1){
+				hasErrors = true;
+				$(item).after("<strong class='bg-danger'>This field is required</strong>");
+			}
+		})
+		if(!hasErrors){
+			if($form.find("#newPasswordConfirmation").val() != $form.find("#newPassword").val()){
+				hasErrors = true;
+				$form.find("#newPasswordConfirmation").after("<strong class='bg-danger'>Passwords doesn't match</strong>");
+				$form.find("#newPassword").after("<strong class='bg-danger'>Passwords doesn't match</strong>");
+			}
+		}
+		if(!hasErrors){
+			
+		}
+	});
+	
+	$("#form_changePassword").find(".btn-danger").on("click", function(){
+		$("#form_changePassword").find("input").val("");
+		$("#form_changePassword").fadeOut();
 	});
 	
 	/**
