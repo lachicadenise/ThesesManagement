@@ -234,6 +234,8 @@ $(document).ready(function(){
 					$("#userAccountForm").find("#title").text("Edit User Account");
 					$("#userAccountForm").fadeIn();
 					
+					$("#userAccountForm").find(".btn-warning").parent().removeClass("hidden");
+					
 				},
 				error: function(jqXHR, errorThrown, textStatus){
 					$("#messageBox").find("#title").text("User Accounts");
@@ -242,6 +244,10 @@ $(document).ready(function(){
 				}
 			});
 		}
+	});
+	
+	$("#userAccountForm").find(".btn-warning").on("click", function(){
+		alert("User wants to change password");
 	});
 	
 	/**

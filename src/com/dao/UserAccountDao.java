@@ -189,4 +189,30 @@ public class UserAccountDao implements IDao<UserAccount> {
 		return userAccount;
 	}
 
+	public boolean changePassword(int id, String password, String newPassword, Connection connection) throws SQLException{
+		
+		String query = "update userAccounts set password = ? where id = ? and password = ? limit 1;";
+		PreparedStatement statement = connection.prepareStatement(query);
+		int affectedRows = statement.executeUpdate();
+		statement.close();
+		
+		return affectedRows == 1;
+		
+	}
+	
+	public boolean passwordIsCorrect(int id, String password, Connection connection) throws SQLException{
+		boolean passwordIsCorrect = false;
+		String query = "select exists(select * from userAccounts where id = ? and password = ?)";
+		PreparedStatement statement = connection.prepareStatement(query);
+		statement.setInt(1, id);
+		statement.setString(2, password);
+		ResultSet resultSet = statement.executeQuery();
+		if(resultSet.next()){
+			passwordIsCorrect = resultSet.getBoolean(1);
+		}
+		resultSet.close();
+		statement.close();
+		return passwordIsCorrect;
+	}
+	
 }

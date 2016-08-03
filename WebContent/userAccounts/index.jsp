@@ -62,25 +62,66 @@
 			<div class="modal-content">
 				<div class="modal-header"><h4 id="title"></h4></div>
 				<div class="modal-body">
+				
 					<div class="form-group">
-						
 						<label for="username">Username</label>
 						<input type="text" id="username" class="form-control" />
+					</div>
 						
+					<div class="form-group">
 						<label for="username">Lastname</label>
 						<input type="text" id="lastname" class="form-control" />
-						
+					</div>
+					
+					<div class="form-group">
 						<label for="username">Firstname</label>
 						<input type="text" id="firstname" class="form-control" />
-						
+					</div>
+					
+					<div class="form-group">
 						<label for="username">Middlename</label>
 						<input type="text" id="middlename" class="form-control" />
-						
 					</div>
+					
+					<div class="form-group hidden">
+						<button type="button" class="btn btn-warning form-control">Change Password</button>
+					</div>
+					
 				</div>
 				<div class="modal-footer">
 					<div class="input-group">
 						<button class="btn btn-primary">Submit</button>
+						<button class="btn btn-danger">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Change Password Form -->
+	<div id="form_changePassword" class="modal" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4>Change Password</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="currentPassword">Current Password</label>
+						<input id="currentPassword" type="password" class="form-control" />
+					</div>
+					<div class="form-group">
+						<label for="newPassword">New Password</label>
+						<input id="newPassword" type="password" class="form-control" />
+					</div>
+					<div class="form-group">
+						<label for="newPasswordConfirmation">Confirm New Password</label>
+						<input id="newPasswordConfirmation" type="password" class="form-control" />
+					</div>
+				</div>
+				<div class="modal-footer">
+					<div class="input-group">
+						<button class="btn btn-primary">Change</button>
 						<button class="btn btn-danger">Cancel</button>
 					</div>
 				</div>
