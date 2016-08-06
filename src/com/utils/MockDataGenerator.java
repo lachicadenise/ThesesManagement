@@ -110,7 +110,9 @@ public class MockDataGenerator {
 				"Diana Pitzer", 
 				"Shala Mcgregor", 
 				"Mitchel Viau", 
-				"Marguerita Milera"
+				"Marguerita Milera",
+				"Alison Brie",
+				"Margot Robbie"
 		};
 		
 		Connection connection = null;
